@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*execute.c*/
-=======
->>>>>>> NewBranch
-=======
->>>>>>> f7f95af00fc2853ac11fb18b96caecfaf6e7b01b
 #include "shell.h"
 
 /**
@@ -66,11 +59,7 @@ int launch(char **args)
 	pid = fork();
 	if (pid == 0)
 	{
-<<<<<<< HEAD
 		if (execve(command_path, args, environ) == -1)
-=======
-		if (execve(command_path, args, envirn) == -1)
->>>>>>> NewBranch
 		{
 			perror("launch");
 		}
