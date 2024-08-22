@@ -1,7 +1,10 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* builtins.c*/
 =======
 >>>>>>> NewBranch
+=======
+>>>>>>> f7f95af00fc2853ac11fb18b96caecfaf6e7b01b
 #include "shell.h"
 
 /**

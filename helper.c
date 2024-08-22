@@ -1,7 +1,10 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*helper.c*/
 =======
 >>>>>>> NewBranch
+=======
+>>>>>>> f7f95af00fc2853ac11fb18b96caecfaf6e7b01b
 #include "shell.h"
 
 /**
@@ -63,6 +66,37 @@ char *check_command_in_path(char *path_token, char *command, char *path_copy)
 }
 
 /**
+ * check_command_in_path - check if a command exists in a directory
+ * @path_token: the directory to check
+ * @command: the command to find
+ * @path_copy: copy of the path environment variable to free after
+ *
+ * Return: full path of the command if found, NULL if not found
+ *
+ */
+char *check_command_in_path(char *path_token, char *command, char *path_copy)
+{
+	char *file_path;
+	int command_length, directory_length;
+	struct stat buffer;
+
+	command_length = strlen(command);
+	directory_length = strlen(path_token);
+	file_path = malloc(command_length + directory_length + 2);
+	strcpy(file_path, path_token);
+	strcat(file_path, "/");
+	strcat(file_path, command);
+
+	if (stat(file_path, &buffer) == 0)
+	{
+		free(path_copy);
+		return (file_path);
+	}
+	free(file_path);
+	return (NULL);
+}
+
+/**
  * find_command - find the full path of a command
  * @command: command to find
  *
@@ -80,32 +114,21 @@ char *find_command(char *command)
 		path_copy = strdup(path);
 		path_token = strtok(path_copy, ":");
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> f7f95af00fc2853ac11fb18b96caecfaf6e7b01b
 		while (path_token != NULL)
 		{
-			directory_length = strlen(path_token);
-			file_path = malloc(command_length + directory_length + 2);
-			strcpy(file_path, path_token);
-			strcat(file_path, "/");
-			strcat(file_path, command);
-			strcat(file_path, "\0");
-			if (stat(file_path, &buffer) == 0)
-			{
-				free(path_copy);
-				return (file_path);
-			}
-			else
-			{
-				free(file_path);
-				path_token = strtok(NULL, ":");
-			}
+			char *result = check_command_in_path(path_token, command, path_copy);
+
+			if (result)
+				return (result);
+			path_token = strtok(NULL, ":");
 		}
 		free(path_copy);
-		if (stat(command, &buffer) == 0)
-		{
-			return (strdup(command));
-		}
-		return (NULL);
 	}
+<<<<<<< HEAD
 =======
 
 		while (path_token != NULL)
@@ -120,6 +143,9 @@ char *find_command(char *command)
 	}
 
 >>>>>>> NewBranch
+=======
+
+>>>>>>> f7f95af00fc2853ac11fb18b96caecfaf6e7b01b
 	if (stat(command, &buffer) == 0)
 	{
 		return (strdup(command));
