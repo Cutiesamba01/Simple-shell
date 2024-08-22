@@ -13,10 +13,7 @@ int main(int ac, char **av)
 	info_t info[] = { INFO_INIT };
 	int fd = 2;
 
-	asm ("mov %l, %0\n\t"
-			"add $3, %0"
-			: "=r" (fd)
-			: "r" (fd));
+	fd += 3;
 
 	if (ac == 2)
 	{
@@ -25,7 +22,7 @@ int main(int ac, char **av)
 		{
 			if (errno == EACCES)
 				exit(126);
-			if (errno == ENDENT)
+			if (errno == ENOENT)
 			{
 				_eputs(av[0]);
 				_eputs(": 0: Can't open ");

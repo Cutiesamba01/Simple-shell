@@ -12,6 +12,11 @@
 #include <fcntl.h>
 #include <errno.h>
 
+
+#define TOKEN_DELIM " \t\r\n\a"
+
+extern char **environ;
+
 /*for read/write buffers*/
 #define READ_BUF_SIZE 1024
 #define write_buf_size 1024
@@ -133,7 +138,7 @@ int _putsfd(char *str, int fd);
 /*builtin function prototypes*/
 int _myexit(info_t *);
 int _mycd(info_t *);
-int _myhelp(info_ *);
+int _myhelp(info_t *);
 int _myalias(info_t *);
 int _myhistory(info_t *);
 char **get_environ(info_t *);
@@ -147,7 +152,7 @@ void ffree(char **);
 char *_memset(char *, char, unsigned int);
 
 /*functions used with / for performing builtin functions*/
-char *_getenv(info_t *, const char *);
+char *_igetenv(info_t *, const char *);
 int _myenv(info_t *);
 int _mysetenv(info_t *);
 int _myunsetenv(info_t *);
@@ -217,5 +222,24 @@ int loophsh(char **);
 void clear_info(info_t *);
 void free_info(info_t *, int);
 void set_info(info_t *, char **);
+
+
+
+/*Just Included prototypes*/
+
+/* Function prototypes*/
+char *read_line(void);
+char **split_line(char *line);
+int execute(char **args);
+int launch(char **args);
+ 
+/*Builtins*/
+int shell_cd(char **args);
+int shell_exit(char **args);
+int shell_env(char **args);
+
+/*Helper function*/
+char *_getenv(const char *name);
+char *find_command(char *command);
 
 #endif

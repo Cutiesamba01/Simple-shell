@@ -60,7 +60,7 @@ int launch(char **args)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(command_path, args, envirn) == -1)
+		if (execve(command_path, args, environ) == -1)
 		{
 			perror("launch");
 		}
