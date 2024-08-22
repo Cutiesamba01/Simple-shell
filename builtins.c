@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 /* builtins.c*/
+=======
+>>>>>>> NewBranch
 #include "shell.h"
 
 /**
@@ -13,8 +16,12 @@ int shell_cd(char **args)
 	if (args[1] == NULL)
 	{
 		fprintf(stderr, "shell: expected argument to \"cd\"\n");
+<<<<<<< HEAD
 	}
 	else
+=======
+	} else
+>>>>>>> NewBranch
 	{
 		if (chdir(args[1]) != 0)
 		{
