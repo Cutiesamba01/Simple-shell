@@ -1,4 +1,3 @@
-// builtins.c
 #include "shell.h"
 
 /**
@@ -9,10 +8,13 @@
  */
 int shell_cd(char **args)
 {
-	if (args[1] ==NULL) {
+	if (args[1] == NULL)
+	{
 		fprintf(stderr, "shell: expected argument to \"cd\"\n");
-	} else {
-		if (chdir(args[1]) != 0) {
+	} else
+	{
+		if (chdir(args[1]) != 0)
+		{
 			perror("shell");
 		}
 	}
@@ -44,7 +46,8 @@ int shell_env(char **args)
 	int a = 0;
 	(void)args;
 
-	while (environ[a]) {
+	while (environ[a])
+	{
 		printf("%s\n", environ[a]);
 		a++;
 	}

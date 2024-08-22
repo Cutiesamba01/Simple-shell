@@ -1,4 +1,3 @@
-// execute.c
 #include "shell.h"
 
 /**
@@ -21,12 +20,14 @@ int execute(char **args)
 		&shell_env
 	};
 
-	if (args[0] == NULL) {
+	if (args[0] == NULL)
+	{
 		return (1);
 	}
 
-	for (a = 0; a < 3; a++) {
-		if (strcmp(args[0], builtin_str[a]) == 0) 
+	for (a = 0; a < 3; a++)
+	{
+		if (strcmp(args[0], builtin_str[a]) == 0)
 		{
 			return ((*builtin_func[a])(args));
 		}
@@ -47,20 +48,27 @@ int launch(char **args)
 	char *command_path;
 
 	command_path = find_command(args[0]);
-	if (command_path == NULL) {
+	if (command_path == NULL)
+	{
 		fprintf(stderr, "%s: command not found\n", args[0]);
 		return (1);
 	}
 
 	pid = fork();
-	if (pid == 0) {
-		if (execve(command_path, args, envirn) == -1) {
+	if (pid == 0)
+	{
+		if (execve(command_path, args, envirn) == -1)
+		{
 			perror("launch");
 		}
 		exit(EXIT_FAILURE);
-	} else if (pid < 0) {
+	}
+	else if (pid < 0)
+	{
 		perror("launch");
-	} else {
+	}
+	else
+	{
 		do {
 			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
