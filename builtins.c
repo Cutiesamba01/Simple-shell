@@ -1,4 +1,3 @@
-/* builtins.c*/
 #include "shell.h"
 
 /**

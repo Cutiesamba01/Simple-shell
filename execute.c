@@ -1,4 +1,3 @@
-/*execute.c*/
 #include "shell.h"
 
 /**
