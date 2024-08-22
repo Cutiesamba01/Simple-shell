@@ -6,12 +6,14 @@
  *
  * Return: 1 to continue excuting, 0 to exit
  */
+
 int shell_cd(char **args)
 {
 	if (args[1] == NULL)
 	{
 		fprintf(stderr, "shell: expected argument to \"cd\"\n");
-	} else
+	}
+	else
 	{
 		if (chdir(args[1]) != 0)
 		{
@@ -28,6 +30,7 @@ int shell_cd(char **args)
  * Return: 0 to exit
  *
  */
+
 int shell_exit(char **args)
 {
 	(void)args;
@@ -41,6 +44,7 @@ int shell_exit(char **args)
  * Return: 1 to continue executing
  *
  */
+
 int shell_env(char **args)
 {
 	int a = 0;

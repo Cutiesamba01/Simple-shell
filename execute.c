@@ -6,6 +6,7 @@
  *
  * Return: 1 if the shell should continue, 0 if it ends
  */
+
 int execute(char **args)
 {
 	int a;
@@ -41,6 +42,7 @@ int execute(char **args)
  *
  * Return:1 after completed
  */
+
 int launch(char **args)
 {
 	pid_t pid;
@@ -57,7 +59,7 @@ int launch(char **args)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(command_path, args, envirn) == -1)
+		if (execve(command_path, args, environ) == -1)
 		{
 			perror("launch");
 		}
@@ -71,7 +73,8 @@ int launch(char **args)
 	{
 		do {
 			waitpid(pid, &status, WUNTRACED);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		} while
+		(!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 
 	free(command_path);

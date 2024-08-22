@@ -12,11 +12,10 @@ char *_getenv(const char *name)
 
 	len = strlen(name);
 	for (a = 0; environ[a]; a++)
+
+	if (strncmp(name, environ[a], len) == 0 && environ[a][len] == '=')
 	{
-		if (strncmp(name, environ[a], len) == 0 && environ[a][len] == '=')
-		{
-			return (&environ[a][len + 1]);
-		}
+		return (&environ[a][len + 1]);
 	}
 	return (NULL);
 }
