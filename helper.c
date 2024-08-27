@@ -1,27 +1,6 @@
 #include "shell.h"
 
 /**
- * _getenv -get an environment variable
- * @name: name of the environment variable
- *
- * Return: pointer to the value in the environment, or NULL if not found
- */
-char *_getenv(const char *name)
-{
-	int a, len;
-
-	len = strlen(name);
-	for (a = 0; environ[a]; a++)
-	{
-		if (strncmp(name, environ[a], len) == 0 && environ[a][len] == '=')
-		{
-			return (&environ[a][len + 1]);
-		}
-	}
-	return (NULL);
-}
-
-/**
  * check_command_in_path - check if a command exists in a directory
  * @path_token: the directory to check
  * @command: the command to find

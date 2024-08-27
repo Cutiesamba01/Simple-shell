@@ -13,9 +13,7 @@
 #include <errno.h>
 
 
-#define TOKEN_DELIM " \t\r\n\a"
-
-extern char **environ;
+#define TOKEN_DELIM " \r\s\b\p"
 
 /*for read/write buffers*/
 #define READ_BUF_SIZE 1024
@@ -224,7 +222,6 @@ void free_info(info_t *, int);
 void set_info(info_t *, char **);
 
 
-
 /*Just Included prototypes*/
 
 /* Function prototypes*/
@@ -232,7 +229,7 @@ char *read_line(void);
 char **split_line(char *line);
 int execute(char **args);
 int launch(char **args);
- 
+
 /*Builtins*/
 int shell_cd(char **args);
 int shell_exit(char **args);
