@@ -17,7 +17,7 @@
 
 /*for read/write buffers*/
 #define READ_BUF_SIZE 1024
-#define write_buf_size 1024
+#define WRITE_BUF_SIZE 1024
 #define BUF_FLUSH -1
 
 /*for command chaining*/
@@ -42,14 +42,14 @@ extern char **environ;
 /**
  * struct liststr - singly linked list
  * @num: the number field
- * @str: a string
+ * @s: a string
  * @next: points to the next node
  */
 
 typedef struct liststr
 {
 	int num;
-	char *str;
+	char *s;
 	struct liststr *next;
 } list_t;
 
@@ -165,7 +165,7 @@ ssize_t get_input(info_t *);
 char *get_history_file(info_t *info);
 int write_history(info_t *info);
 int read_history(info_t *info);
-int build_history(info_t *info, char *buf, int linecount);
+int build_history_list(info_t *info, char *buf, int linecount);
 int renumber_history(info_t *info);
 
 /*function prototypes to handle singly linked list*/
@@ -236,7 +236,7 @@ int shell_exit(char **args);
 int shell_env(char **args);
 
 /*Helper function*/
-char *_getenv(const char *name);
+char *_getenv(info_t *, const char *name);
 char *find_command(char *command);
 
 #endif

@@ -1,22 +1,24 @@
 #include "shell.h"
 
 /**
- * _getenv -get an environment variable
- * @name: name of the environment variable
+ * _getenv - gets an environ variable value
+ * @info: potential args used in maintaining constant function prototype
+ * @name: name of the environ variable
  *
- * Return: pointer to the value in the environment, or NULL if not found
+ * Return: the value of the environ variable
  */
-char *_getenv(const char *name)
-{
-	int a, len;
 
-	len = strlen(name);
-	for (a = 0; environ[a]; a++)
+char *_getenv(info_t *info, const char *name)
+{
+	list_t *node = info->env;
+	char *p;
+
+	while (node)
 	{
-		if (strncmp(name, environ[a], len) == 0 && environ[a][len] == '=')
-		{
-			return (&environ[a][len + 1]);
-		}
+		p = starts_with(node->s, name);
+		if (p && *p)
+			return (p);
+		node = node->next;
 	}
 	return (NULL);
 }
@@ -88,6 +90,6 @@ int populate_env_list(info_t *info)
 
 int _myenv(info_t *info)
 {
-	print_list_str(info->env);
+	print_list(info->env);
 	return (0);
 }

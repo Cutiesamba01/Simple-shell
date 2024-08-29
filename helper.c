@@ -1,68 +1,88 @@
 #include "shell.h"
 
 /**
- * check_command_in_path - check if a command exists in a directory
- * @path_token: the directory to check
- * @command: the command to find
- * @path_copy: copy of the path environment variable to free after
+ * is_cmd - determines if a file is executable
+ * @info: info struct
+ * @path: path to the file
  *
- * Return: full path of the command if found, NULL if not found
- *
+ * Return: 1 if true / 0 otherwise
  */
-char *check_command_in_path(char *path_token, char *command, char *path_copy)
+
+int is_cmd(info_t *info, char *path)
 {
-	char *file_path;
-	int command_length, directory_length;
-	struct stat buffer;
+	struct stat st;
 
-	command_length = strlen(command);
-	directory_length = strlen(path_token);
-	file_path = malloc(command_length + directory_length + 2);
-	strcpy(file_path, path_token);
-	strcat(file_path, "/");
-	strcat(file_path, command);
-
-	if (stat(file_path, &buffer) == 0)
+	(void)info;
+	if (!path || stat(path, &st))
+		return (0);
+	if (st.st_mode & S_IFREG)
 	{
-		free(path_copy);
-		return (file_path);
+		return (1);
 	}
-	free(file_path);
-	return (NULL);
+	return (0);
 }
 
 /**
- * find_command - find the full path of a command
- * @command: command to find
+ * dup_chars - duplicates chars
+ * @paths: the PATH string
+ * @start: starts the index
+ * @stop: stops the index
  *
- * Return: full path of the command if found, Null if not found
- *
+ * Return: pointer to the new buffer
  */
-char *find_command(char *command)
+
+char *dup_chars(char *paths, int start, int stop)
 {
-	char *path, *path_copy, *path_token;
-	struct stat buffer;
+	static char buf[1024];
+	int c = 0, s = 0;
 
-	path = _getenv("PATH");
-	if (path)
+	for (s = 0, c = start; c < stop; c++)
+		if (paths[c] != ':')
+			buf[s++] = paths[c];
+	buf[s] = 0;
+	return (buf);
+}
+
+/**
+ * find_path - finds this cmd in the PATH string
+ * @info: info struct
+ * @paths: the PATH string
+ * @cmd: the cmd to be found
+ *
+ * Return: full path of cmd if found / NULL
+ */
+
+char *find_path(info_t *info, char *paths, char *cmd)
+{
+	int r = 0, curr_pos = 0;
+	char *path;
+
+	if (!paths)
+		return (NULL);
+	if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
 	{
-		path_copy = strdup(path);
-		path_token = strtok(path_copy, ":");
-
-		while (path_token != NULL)
-		{
-			char *result = check_command_in_path(path_token, command, path_copy);
-
-			if (result)
-				return (result);
-			path_token = strtok(NULL, ":");
-		}
-		free(path_copy);
+		if (is_cmd(info, cmd))
+			return (cmd);
 	}
-
-	if (stat(command, &buffer) == 0)
+	while (1)
 	{
-		return (strdup(command));
+		if (!paths[r] || paths[r] == ':')
+		{
+			path = dup_chars(paths, curr_pos, r);
+			if (!*path)
+				_strcat(path, cmd);
+			else
+			{
+				_strcat(path, "/");
+				_strcat(path, cmd);
+			}
+			if (is_cmd(info, path))
+				return (path);
+			if (!paths[r])
+				break;
+			curr_pos = r;
+		}
+		r++;
 	}
 	return (NULL);
 }
