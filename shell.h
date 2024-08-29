@@ -134,12 +134,12 @@ int _putfd(char c, int fd);
 int _putsfd(char *str, int fd);
 
 /*builtin function prototypes*/
-int _myexit(info_t *);
-int _mycd(info_t *);
-int _myhelp(info_t *);
-int _myalias(info_t *);
-int _myhistory(info_t *);
-char **get_environ(info_t *);
+int _myexit(info_t *info);
+int _mycd(info_t *info);
+int _myhelp(info_t *info);
+int _myalias(info_t *info);
+int _myhistory(info_t *info);
+char **get_environ(info_t *info);
 int _unsetenv(info_t *, char *);
 int _setenv(info_t *, char *, char *);
 
@@ -183,10 +183,10 @@ size_t print_list(const list_t *);
 ssize_t get_node_index(list_t *, list_t *);
 
 /*function prototypes that finds builtins and commands*/
-int hsh(info_t *, char **);
-int find_builtin(info_t *);
-void find_cmd(info_t *);
-void fork_cmd(info_t *);
+int hsh(info_t *, char **av);
+int find_builtin(info_t *info);
+void find_cmd(info_t *info);
+void fork_cmd(info_t *info);
 
 /*function prototypes that prints error*/
 char *convert_number(long int, int, int);
