@@ -86,3 +86,55 @@ char *find_path(info_t *info, char *paths, char *cmd)
 	}
 	return (NULL);
 }
+
+/**
+ * tokenize - splits a line into an array of words
+ * @line: Ths line to be tokenized
+ *
+ * Return: Array of words, or NULL on failure
+ *
+ */
+char **tokenize(char *line)
+{
+	char **tokens = malloc(64 * sizeof(char *));
+	char *token;
+	int i = 0;
+
+	if (!tokens)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
+
+	while (*line)
+	{
+		while (*line == ' ' || *line == '\t' || *line == '\n')
+			line++;
+
+		if (*line == '\0')
+			break;
+
+		token = line;
+		while (*line && *line != ' ' && *line != '\t' && *line != '\n')
+			line++;
+
+		if (*line)
+			*line++ = '\0';
+
+		tokens[i++] = token;
+	}
+	tokens[i] = NULL;
+
+	return (tokens);
+}
+
+/**
+ * free_tokens - Frees the memory allocated for the array of tokens
+ * @tokens: Array of token to be freed
+ *
+ */
+void free_tokens(char **tokens)
+{
+	free(tokens);
+}
+

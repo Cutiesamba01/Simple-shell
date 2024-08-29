@@ -224,19 +224,29 @@ void set_info(info_t *, char **);
 
 /*Just Included prototypes*/
 
-/* Function prototypes*/
 char *read_line(void);
 char **split_line(char *line);
-int execute(char **args);
 int launch(char **args);
 
-/*Builtins*/
-int shell_cd(char **args);
-int shell_exit(char **args);
-int shell_env(char **args);
+/*execute.c*/
+void execute(char *cmd);
+int is_builtin(char *cmd);
+void execute_builtin(char **argv);
+void execute_external(char **argv);
+void execute_line(char *line);
 
 /*Helper function*/
 char *_getenv(info_t *, const char *name);
 char *find_command(char *command);
+void free_tokens(char **tokens);
+char **tokenize(char *line);
+
+
+void handle_cd(char **argv);
+void handle_exit(char **argv);
+void handle_env(void);
+void handle_setenv(char **argv);
+void handle_unsetenv(char **airgv);
+void handle_alias(char **argv);
 
 #endif
