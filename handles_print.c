@@ -71,7 +71,7 @@ int _erratoi(char *s)
 	unsigned long int result = 0;
 
 	if (*s == '+')
-	https://github.com/Lordwill1/simple_shell/blob/master/shell_loop.c	s++;
+	s++;
 	for (a = 0; s[a] != '\0'; a++)
 	{
 		if (s[a] >= '0' && s[a] <= '9')
