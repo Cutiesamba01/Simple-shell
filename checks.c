@@ -45,25 +45,25 @@ int _isalpha(int u)
 
 /**
  * _atoi - converts string to integer
- * @n: string to be converted
+ * @s: string to be converted
  *
  * Return: 0 if conversion happened and 1 otherwise
  */
 
-int _atoi(char *n)
+int _atoi(char *s)
 {
 	int t, sign = 1, flag = 0, output;
 	unsigned int result = 0;
 
-	for (t = 0; n[t] != '\0' && flag != 2; t++)
+	for (t = 0; s[t] != '\0' && flag != 2; t++)
 	{
-		if (n[t] == '-')
+		if (s[t] == '-')
 			sign *= -1;
-		if (n[t] >= '0' && n[t] <= '9')
+		if (s[t] >= '0' && s[t] <= '9')
 		{
 			flag = 1;
 			result *= 10;
-			result += (n[t] - '0');
+			result += (s[t] - '0');
 		}
 		else if (flag == 1)
 			flag = 2;
