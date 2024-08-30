@@ -12,9 +12,6 @@
 #include <fcntl.h>
 #include <errno.h>
 
-
-#define TOKEN_DELIM " \r\s\b\p"
-
 /*for read/write buffers*/
 #define READ_BUF_SIZE 1024
 #define WRITE_BUF_SIZE 1024
@@ -54,16 +51,16 @@ typedef struct liststr
 } list_t;
 
 /**
- * struct passinfo - enables uniform function prototype
- *		with argument placeholders
- * @arg: string gotten from getline which conatains arguments
- * @argv: array of strings or commands gotten from getline
+ * struct passinfo - contains pseudo-arguments to pass into a function,
+ *		allowing uniform prototype for function pointer struct
+ * @arg: string gotten from getline which contains arguments
+ * @argv: array of strings gotten from arg
  * @path: string path for the current command
  * @argc: argument count
- * @line_count: count number of lines processed
+ * @line_count: error count
  * @err_num: error status code for exit function
  * @linecount_flag: count this line of input if set
- * @fname: program file name used in compilation of the program
+ * @fname: program file name
  * @env: linked list for a local copy of environ
  * @environ: custom modified copy of environ from linked list env
  * @history: history node
@@ -71,7 +68,7 @@ typedef struct liststr
  * @env_changed: if environ is changed, set
  * @status: return status of the previously executed command
  * @cmd_buf: address of pointer to cmd_buf, set if chaining commands
- * @cmd_buf_type: CMD_type (||, &&, ;)
+ * @cmd_buf_type: CMD_type ||, &&, ;
  * @readfd: file descriptor from which line input is read
  * @histcount: history line number count
  */
@@ -92,6 +89,7 @@ typedef struct passinfo
 	char **environ;
 	int env_changed;
 	int status;
+
 	char **cmd_buf;
 	int cmd_buf_type;
 	int readfd;
@@ -99,11 +97,11 @@ typedef struct passinfo
 } info_t;
 
 #define INFO_INIT \
-{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, \
-	NULL, NULL, 0, 0, NULL, 0, 0, 0}
+{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL,
+	NULL, NULL, 0, 0, NULL, \ 0, 0, 0}
 
 /**
- * struct builtin - contains a builtin string and related function
+ * struct builtin - contains builtin string and related function
  * @type: builtin command flag
  * @func: the function
  */
@@ -131,15 +129,17 @@ char **strtow2(char *, char);
 void _eputs(char *);
 int _eputchar(char);
 int _putfd(char c, int fd);
-int _putsfd(char *str, int fd);
+int _putsfd(char *s, int fd);
 
 /*builtin function prototypes*/
-int _myexit(info_t *info);
-int _mycd(info_t *info);
-int _myhelp(info_t *info);
-int _myalias(info_t *info);
-int _myhistory(info_t *info);
-char **get_environ(info_t *info);
+int _myexit(info_t *);
+int _mycd(info_t *);
+int _myhelp(info_t *);
+int _myalias(info_t *);
+int _myhistory(info_t *);
+
+/*get env prototypes*/
+char **get_environ(info_t *);
 int _unsetenv(info_t *, char *);
 int _setenv(info_t *, char *, char *);
 
@@ -150,7 +150,7 @@ void ffree(char **);
 char *_memset(char *, char, unsigned int);
 
 /*functions used with / for performing builtin functions*/
-char *_igetenv(info_t *, const char *);
+char *_getenv(info_t *, const char *);
 int _myenv(info_t *);
 int _mysetenv(info_t *);
 int _myunsetenv(info_t *);
@@ -183,10 +183,10 @@ size_t print_list(const list_t *);
 ssize_t get_node_index(list_t *, list_t *);
 
 /*function prototypes that finds builtins and commands*/
-int hsh(info_t *, char **av);
-int find_builtin(info_t *info);
-void find_cmd(info_t *info);
-void fork_cmd(info_t *info);
+int hsh(info_t *, char **);
+int find_builtin(info_t *);
+void find_cmd(info_t *);
+void fork_cmd(info_t *);
 
 /*function prototypes that prints error*/
 char *convert_number(long int, int, int);
@@ -200,7 +200,7 @@ int is_chain(info_t *, char *, size_t *);
 int replace_alias(info_t *);
 int replace_vars(info_t *);
 int replace_string(char **, char *);
-void check_chain(info_t *, char *, size_t *, size_t, size_t);
+void check_chain(info_t *, char *, size_t *);
 
 /*function prototype to handle the interactivity of the shell*/
 int _atoi(char *);
@@ -222,31 +222,5 @@ void free_info(info_t *, int);
 void set_info(info_t *, char **);
 
 
-/*Just Included prototypes*/
-
-char *read_line(void);
-char **split_line(char *line);
-int launch(char **args);
-
-/*execute.c*/
-void execute(char *cmd);
-int is_builtin(char *cmd);
-void execute_builtin(char **argv);
-void execute_external(char **argv);
-void execute_line(char *line);
-
-/*Helper function*/
-char *_getenv(info_t *, const char *name);
-char *find_command(char *command);
-void free_tokens(char **tokens);
-char **tokenize(char *line);
-
-
-void handle_cd(char **argv);
-void handle_exit(char **argv);
-void handle_env(void);
-void handle_setenv(char **argv);
-void handle_unsetenv(char **airgv);
-void handle_alias(char **argv);
 
 #endif
