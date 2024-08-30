@@ -38,9 +38,10 @@ void execute(char *cmd)
 
 int is_builtin(char *cmd)
 {
+	int i;
 	char *builtins[] = {"cd", "exit", "env", "setenv", "unsetenv", "alias", NULL};
 
-	for (int i = 0; builtins[i]; i++)
+	for (i = 0; builtins[i]; i++)
 	{
 		if (strcmp(cmd, builtins[i]) == 0)
 		{
