@@ -62,8 +62,7 @@ int print_d(int in, int fd)
  * _erratoi - converts a string to an integer
  * @s: string to be converted
  *
- * Return:
- * 0 if there are no numbers in string & -1 otherwise
+ * Return: 0 if there are no numbers in string & -1 otherwise
  */
 
 int _erratoi(char *s)
@@ -72,7 +71,7 @@ int _erratoi(char *s)
 	unsigned long int result = 0;
 
 	if (*s == '+')
-		s++;
+	https://github.com/Lordwill1/simple_shell/blob/master/shell_loop.c	s++;
 	for (a = 0; s[a] != '\0'; a++)
 	{
 		if (s[a] >= '0' && s[a] <= '9')

@@ -2,23 +2,23 @@
 
 /**
  * _eputchar - writes char (c) to stderr
- * @c: char to be printed
+ * @o: char to be printed
  *
  * Return: 0 if successful / -1 if there's an error
  */
 
-int _eputchar(char c)
+int _eputchar(char o)
 {
 	static int f;
 	static char buf[WRITE_BUF_SIZE];
 
-	if (c == BUF_FLUSH || f >= WRITE_BUF_SIZE)
+	if (o == BUF_FLUSH || f >= WRITE_BUF_SIZE)
 	{
 		write(2, buf, f);
 		f = 0;
 	}
-	if (c != BUF_FLUSH)
-		buf[f++] = c;
+	if (o != BUF_FLUSH)
+		buf[f++] = o;
 	return (1);
 }
 
